@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Search, Eye, Edit, Trash2, Download } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
-import '../styles/ManageTournaments.css'; // Add this line
+import { Search, Eye } from 'lucide-react';
+import ViewOnlyTournamentView from './ViewOnlyTournamentView';
+import '../styles/ManageTournaments.css';
 
-export default function ManageTournaments() {
+export default function ViewOnlyManageTournaments() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [selectedTournament, setSelectedTournament] = useState(null);
 
   const [tournaments, setTournaments] = useState([
     { 
@@ -107,16 +107,17 @@ export default function ManageTournaments() {
     },
   ]);
 
-  const handleDelete = (id, name) => {
-    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
-      setTournaments(tournaments.filter(t => t.id !== id));
-      toast.success('Tournament deleted');
-    }
+  const handleTournamentClick = (tournament) => {
+    setSelectedTournament(tournament);
   };
 
-  const handleExport = (tournament) => {
-    toast.success(`Exporting ${tournament.name}...`);
+  const handleBack = () => {
+    setSelectedTournament(null);
   };
+
+  if (selectedTournament) {
+    return <ViewOnlyTournamentView tournament={selectedTournament} onBack={handleBack} />;
+  }
 
   const filteredTournaments = tournaments.filter(t => {
     const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -133,42 +134,42 @@ export default function ManageTournaments() {
   };
 
   return (
-    <div className="manage-tournaments-container"> {/* Refactored */}
-      <div className="manage-tournaments-header-section"> {/* Refactored */}
-        <h1 className="manage-tournaments-title">Manage Tournaments</h1> {/* Refactored */}
-        <p className="manage-tournaments-subtitle">View and manage all tournaments</p> {/* Refactored */}
+    <div className="manage-tournaments-container">
+      <div className="manage-tournaments-header-section">
+        <h1 className="manage-tournaments-title">Tournaments</h1>
+        <p className="manage-tournaments-subtitle">View all tournaments</p>
       </div>
 
       {/* Stats */}
-      <div className="stats-grid"> {/* Refactored */}
-        <div className="stat-card"> {/* Refactored */}
-          <p className="stat-label">Total Tournaments</p> {/* Refactored */}
-          <h3 className="stat-value text-blue">{stats.total}</h3> {/* Refactored, using text-blue to map to var(--blue-800) */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <p className="stat-label">Total Tournaments</p>
+          <h3 className="stat-value text-blue">{stats.total}</h3>
         </div>
-        <div className="stat-card"> {/* Refactored */}
-          <p className="stat-label">Active</p> {/* Refactored */}
-          <h3 className="stat-value text-blue">{stats.active}</h3> {/* Refactored */}
+        <div className="stat-card">
+          <p className="stat-label">Active</p>
+          <h3 className="stat-value text-blue">{stats.active}</h3>
         </div>
-        <div className="stat-card"> {/* Refactored */}
-          <p className="stat-label">Completed</p> {/* Refactored */}
-          <h3 className="stat-value text-dark">{stats.completed}</h3> {/* Refactored, using text-dark to map to var(--gray-900) */}
+        <div className="stat-card">
+          <p className="stat-label">Completed</p>
+          <h3 className="stat-value text-dark">{stats.completed}</h3>
         </div>
-        <div className="stat-card"> {/* Refactored */}
-          <p className="stat-label">Scheduled</p> {/* Refactored */}
-          <h3 className="stat-value text-yellow">{stats.scheduled}</h3> {/* Refactored, using text-yellow to map to var(--yellow-400) */}
+        <div className="stat-card">
+          <p className="stat-label">Scheduled</p>
+          <h3 className="stat-value text-yellow">{stats.scheduled}</h3>
         </div>
       </div>
 
       {/* Search and Filter */}
-      <div className="card search-filter-card"> {/* Refactored */}
-        <div className="search-filter-controls"> {/* Refactored */}
-          <div className="search-input-wrapper"> {/* Refactored */}
-            <Search className="search-icon" size={20} /> {/* Refactored */}
+      <div className="card search-filter-card">
+        <div className="search-filter-controls">
+          <div className="search-input-wrapper">
+            <Search className="search-icon" size={20} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="form-input search-input" 
+              className="form-input search-input"
               placeholder="Search tournaments..."
             />
           </div>
@@ -176,7 +177,7 @@ export default function ManageTournaments() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="form-select filter-select" 
+            className="form-select filter-select"
           >
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -187,15 +188,15 @@ export default function ManageTournaments() {
       </div>
 
       {/* Tournaments Grid */}
-      <div className="tournaments-grid"> {/* Refactored */}
+      <div className="tournaments-grid">
         {filteredTournaments.map((tournament) => (
-          <div key={tournament.id} className="tournament-card"> {/* Refactored */}
-            <div className="tournament-card-header"> {/* Refactored */}
-              <div className="tournament-card-info"> {/* Refactored */}
+          <div key={tournament.id} className="tournament-card">
+            <div className="tournament-card-header">
+              <div className="tournament-card-info">
                 <div className="flex-1">
-                  <h3 className="tournament-name">{tournament.name}</h3> {/* Refactored */}
-                  <div className="tournament-tags"> {/* Refactored */}
-                    <span className="tournament-format-badge1"> {/* Refactored */}
+                  <h3 className="tournament-name">{tournament.name}</h3>
+                  <div className="tournament-tags">
+                    <span className="tournament-format-badge1">
                       {tournament.format}
                     </span>
                     <span className={`status-badge ${
@@ -211,31 +212,31 @@ export default function ManageTournaments() {
                 </div>
               </div>
 
-              <div className="tournament-details-grid"> {/* Refactored */}
+              <div className="tournament-details-grid">
                 <div>
-                  <p className="tournament-detail-label">Participants</p> {/* Refactored */}
-                  <p className="tournament-detail-value">{tournament.participants}</p> {/* Refactored */}
+                  <p className="tournament-detail-label">Participants</p>
+                  <p className="tournament-detail-value">{tournament.participants}</p>
                 </div>
                 <div>
-                  <p className="tournament-detail-label">Matches</p> {/* Refactored */}
-                  <p className="tournament-detail-value">{tournament.completedMatches}/{tournament.matches}</p> {/* Refactored */}
+                  <p className="tournament-detail-label">Matches</p>
+                  <p className="tournament-detail-value">{tournament.completedMatches}/{tournament.matches}</p>
                 </div>
                 <div>
-                  <p className="tournament-detail-label">Start Date</p> {/* Refactored */}
-                  <p className="tournament-detail-value">{tournament.startDate}</p> {/* Refactored */}
+                  <p className="tournament-detail-label">Start Date</p>
+                  <p className="tournament-detail-value">{tournament.startDate}</p>
                 </div>
                 <div>
-                  <p className="tournament-detail-label">End Date</p> {/* Refactored */}
-                  <p className="tournament-detail-value">{tournament.endDate}</p> {/* Refactored */}
+                  <p className="tournament-detail-label">End Date</p>
+                  <p className="tournament-detail-value">{tournament.endDate}</p>
                 </div>
               </div>
 
-              <div className="progress-section"> {/* Refactored */}
-                <div className="progress-label-container"> {/* Refactored */}
-                  <span className="progress-label">Progress</span> {/* Refactored */}
-                  <span className="progress-percentage">{tournament.progress}%</span> {/* Refactored */}
+              <div className="progress-section">
+                <div className="progress-label-container">
+                  <span className="progress-label">Progress</span>
+                  <span className="progress-percentage">{tournament.progress}%</span>
                 </div>
-                <div className="progress-bar-background"> {/* Refactored */}
+                <div className="progress-bar-background">
                   <div 
                     className="progress-bar-fill"
                     style={{ width: `${tournament.progress}%` }}
@@ -243,27 +244,13 @@ export default function ManageTournaments() {
                 </div>
               </div>
             </div>
-
-            <div className="tournament-card-actions"> {/* Refactored */}
-              <Link
-                to={`/admin/tournament/${tournament.id}`}
-                className="action-button primary" 
+            <div className="tournament-card-actions">
+              <button
+                onClick={() => handleTournamentClick(tournament)}
+                className="action-button primary"
               >
                 <Eye size={16} />
                 View
-              </Link>
-              <button
-                onClick={() => handleExport(tournament)}
-                className="action-button secondary" 
-              >
-                <Download size={16} />
-                Export
-              </button>
-              <button
-                onClick={() => handleDelete(tournament.id, tournament.name)}
-                className="action-button delete" 
-              >
-                <Trash2 size={16} />
               </button>
             </div>
           </div>
@@ -271,7 +258,7 @@ export default function ManageTournaments() {
       </div>
 
       {filteredTournaments.length === 0 && (
-        <div className="no-tournaments-message"> {/* Refactored */}
+        <div className="no-tournaments-message">
           <p>No tournaments found</p>
         </div>
       )}

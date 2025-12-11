@@ -1,38 +1,27 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  LayoutDashboard, 
   Trophy, 
   List, 
   Users, 
   Crown, 
-  Gamepad2, 
-  Settings, 
-  LogOut,
+  Gamepad2,
   Menu,
   X,
-  Shield
+  LogOut
 } from 'lucide-react';
 import '../styles/Layout.css'; 
 
-export default function Layout({ children, currentUser, onLogout }) {
+export default function PublicLayout({ children }) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // FIX: Added "/admin" prefix to all paths
   const menuItems = [
-    { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/admin/create-tournament', icon: Trophy, label: 'Create Tournament' },
-    { path: '/admin/manage-tournaments', icon: List, label: 'Manage Tournaments' },
-    { path: '/admin/manage-participants', icon: Users, label: 'Manage Participants' },
-    { path: '/admin/eternal-table', icon: Crown, label: 'Eternal Table' },
-    { path: '/admin/characters', icon: Gamepad2, label: 'Characters' },
-    { path: '/admin/settings', icon: Settings, label: 'Settings' },
+    { path: '/manage-tournaments', icon: List, label: 'Tournaments' },
+    { path: '/manage-participants', icon: Users, label: 'Participants' },
+    { path: '/eternal-table', icon: Crown, label: 'Eternal Table' },
+    { path: '/characters', icon: Gamepad2, label: 'Characters' },
   ];
-
-  if (currentUser?.role === 'superadmin') {
-    menuItems.splice(6, 0, { path: '/admin/super-admin', icon: Shield, label: 'Super Admin' });
-  }
 
   return (
     <div className="layout-container">
@@ -48,7 +37,6 @@ export default function Layout({ children, currentUser, onLogout }) {
         <nav className="sidebar-nav">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            // Check if current location starts with the item path to keep active state correct
             const isActive = location.pathname === item.path; 
             
             return (
@@ -65,15 +53,10 @@ export default function Layout({ children, currentUser, onLogout }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-info-card">
-            <p className="user-info-username">{currentUser?.username}</p>
-            <p className="user-info-role">{currentUser?.role === 'superadmin' ? 'Super Admin' : 'Admin'}</p>
-          </div>
-          
-          <button onClick={onLogout} className="logout-button">
+          <Link to="/login" className="admin-login-button">
             <LogOut size={20} />
-            <span>Logout</span>
-          </button>
+            <span>Admin Login</span>
+          </Link>
         </div>
       </aside>
 
@@ -112,15 +95,10 @@ export default function Layout({ children, currentUser, onLogout }) {
           </nav>
 
           <div className="sidebar-footer">
-            <div className="user-info-card">
-              <p className="user-info-username">{currentUser?.username}</p>
-              <p className="user-info-role">{currentUser?.role === 'superadmin' ? 'Super Admin' : 'Admin'}</p>
-            </div>
-            
-            <button onClick={onLogout} className="admin-login-button">
+            <Link to="/login" className="admin-login-button">
               <LogOut size={20} />
-              <span>Logout</span>
-            </button>
+              <span>Admin Login</span>
+            </Link>
           </div>
         </aside>
       </div>

@@ -1,17 +1,11 @@
-import { useState, useRef } from 'react';
-import { Plus, Edit, Trash2, Eye } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from 'react';
+import { Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/Characters.css';
 
 
-export default function Characters() {
-  const [showAddModal, setShowAddModal] = useState(false);
+export default function ViewOnlyCharacters() {
   const [showProgressModal, setShowProgressModal] = useState(false);
-  const [editingCharacter, setEditingCharacter] = useState(null);
-  const [characterName, setCharacterName] = useState('');
-  const [characterImage, setCharacterImage] = useState('');
-  const fileInputRef = useRef(null);
 
   const [characters, setCharacters] = useState([
     { id: 1, name: 'Shadow Warrior', image: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400', status: 'Active', gamesPlayed: 24, wins: 18, losses: 6 },
@@ -22,68 +16,6 @@ export default function Characters() {
     { id: 6, name: 'Fire Titan', image: 'https://images.unsplash.com/photo-1589519160732-57fc498494f8?w=400', status: 'Eliminated', gamesPlayed: 12, wins: 5, losses: 7 },
   ]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setCharacterImage(URL.createObjectURL(file));
-    }
-  };
-
-  const handleAddCharacter = () => {
-    if (!characterName) {
-      toast.error('Please enter character name');
-      return;
-    }
-
-    const character = {
-      id: Date.now(),
-      name: characterName,
-      image: characterImage || 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=400',
-      status: 'Active',
-      gamesPlayed: 0,
-      wins: 0,
-      losses: 0
-    };
-
-    if (editingCharacter) {
-      setCharacters(characters.map(c => 
-        c.id === editingCharacter.id 
-          ? { ...editingCharacter, name: characterName, image: characterImage || editingCharacter.image }
-          : c
-      ));
-      toast.success('Character updated successfully');
-    } else {
-      setCharacters([...characters, character]);
-      toast.success('Character added successfully');
-    }
-
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setCharacterName('');
-    setCharacterImage('');
-    setEditingCharacter(null);
-    setShowAddModal(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const handleEdit = (character) => {
-    setEditingCharacter(character);
-    setCharacterName(character.name);
-    setCharacterImage(character.image);
-    setShowAddModal(true);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this character?')) {
-      setCharacters(characters.filter(c => c.id !== id));
-      toast.success('Character deleted');
-    }
-  };
-
   const activeCharacters = characters.filter(c => c.status === 'Active');
   const eliminatedCharacters = characters.filter(c => c.status === 'Eliminated');
 
@@ -91,18 +23,11 @@ export default function Characters() {
     <div className="characters-container"> {/* Refactored */}
       <div className="characters-header-section"> {/* Refactored */}
         <h1 className="characters-title">Last Uma Standing - Characters</h1> {/* Refactored */}
-        <p className="characters-subtitle">Manage characters for Last Uma Standing tournaments</p> {/* Refactored */}
+        <p className="characters-subtitle">View characters for Last Uma Standing tournaments</p> {/* Refactored */}
       </div>
 
       {/* Action Buttons */}
       <div className="action-buttons-group"> {/* Refactored */}
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="action-button primary" 
-        >
-          <Plus size={20} />
-          Add Character
-        </button>
         <button
           onClick={() => setShowProgressModal(true)}
           className="action-button secondary-yellow"
@@ -131,17 +56,17 @@ export default function Characters() {
       {/* Active Characters */}
       <div className="active-characters-section"> {/* Refactored */}
         <h3 className="section-title">Active Characters</h3> {/* Refactored */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Refactored */}
+        <div className="character-grid"> {/* Refactored */}
           {activeCharacters.map((character) => (
             <motion.div
               key={character.id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="card character-card" 
+              className="card character-card"
             >
               <div className="character-image-wrapper"> {/* Refactored */}
-                <img 
-                  src={character.image} 
+                <img
+                  src={character.image}
                   alt={character.name}
                   className="character-image"
                   onError={(e) => {
@@ -175,28 +100,11 @@ export default function Characters() {
                   <div className="character-stat-item"> {/* Refactored */}
                     <span className="character-stat-label">Win Rate</span> {/* Refactored */}
                     <span className="character-stat-value text-yellow"> {/* Refactored */}
-                      {character.gamesPlayed > 0 
+                      {character.gamesPlayed > 0
                         ? Math.round((character.wins / character.gamesPlayed) * 100) + '%'
                         : '0%'}
                     </span>
                   </div>
-                </div>
-
-                <div className="character-actions"> {/* Refactored */}
-                  <button
-                    onClick={() => handleEdit(character)}
-                    className="action-button secondary-blue" 
-                  >
-                    <Edit size={16} />
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(character.id)}
-                    className="action-button danger" 
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -214,13 +122,13 @@ export default function Characters() {
                 key={character.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="card character-card eliminated" 
+                className="card character-card eliminated"
               >
                 <div className="character-image-wrapper eliminated-image-wrapper"> {/* Refactored */}
-                  <img 
-                    src={character.image} 
+                  <img
+                    src={character.image}
                     alt={character.name}
-                    className="character-image grayscale" 
+                    className="character-image grayscale"
                     onError={(e) => {
                       e.target.src = 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=400';
                     }}
@@ -251,115 +159,12 @@ export default function Characters() {
                       <span className="character-stat-value text-red">{character.losses}</span>
                     </div>
                   </div>
-
-                  <div className="character-actions">
-                    <button
-                      onClick={() => handleDelete(character.id)}
-                      className="action-button danger"
-                    >
-                      <Trash2 size={16} />
-                      Delete
-                    </button>
-                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       )}
-
-      {/* Add/Edit Modal */}
-      <AnimatePresence>
-        {showAddModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="modal-overlay" 
-            onClick={resetForm}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="modal-content" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-header"> {/* Refactored */}
-                <h3 className="modal-title">{editingCharacter ? 'Edit Character' : 'Add Character'}</h3> {/* Refactored */}
-              </div>
-
-              <div className="modal-body"> {/* Refactored */}
-                <div>
-                  <label className="form-label">Character Name</label>
-                  <input
-                    type="text"
-                    value={characterName}
-                    onChange={(e) => setCharacterName(e.target.value)}
-                    className="form-input"
-                    placeholder="e.g., Shadow Warrior"
-                  />
-                </div>
-
-                <div>
-                  <label className="form-label">Image</label>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <input
-                      type="text"
-                      value={characterImage}
-                      onChange={(e) => setCharacterImage(e.target.value)}
-                      className="form-input"
-                      placeholder="Paste Image URL"
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      style={{ display: 'none' }}
-                      ref={fileInputRef}
-                      onChange={handleImageChange}
-                    />
-                    <button 
-                      className="action-button"
-                      onClick={() => fileInputRef.current.click()}
-                    >
-                      Upload
-                    </button>
-                  </div>
-                </div>
-
-                {characterImage && (
-                  <div>
-                    <p className="form-label">Preview</p> {/* Refactored */}
-                    <img 
-                      src={characterImage} 
-                      alt="Preview"
-                      className="image-preview" 
-                      onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=400';
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="modal-footer"> {/* Refactored */}
-                <button
-                  onClick={resetForm}
-                  className="cancel-button"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleAddCharacter}
-                  className="action-button primary" 
-                >
-                  {editingCharacter ? 'Update' : 'Add'} Character
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Progress Modal */}
       <AnimatePresence>
@@ -375,7 +180,7 @@ export default function Characters() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="modal-content large" 
+              className="modal-content large"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header"> {/* Refactored */}
@@ -397,10 +202,10 @@ export default function Characters() {
                   {activeCharacters.slice(0, 5).map((character, index) => (
                     <div key={character.id} className="progress-character-item"> {/* Refactored */}
                       <div className="progress-character-image-wrapper"> {/* Refactored */}
-                        <img 
-                          src={character.image} 
+                        <img
+                          src={character.image}
                           alt={character.name}
-                          className="progress-character-image" 
+                          className="progress-character-image"
                           onError={(e) => {
                             e.target.src = 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=400';
                           }}
@@ -411,7 +216,7 @@ export default function Characters() {
                         <div className="progress-character-stats"> {/* Refactored */}
                           <span>{character.wins}W - {character.losses}L</span>
                           <span>
-                            Win Rate: {character.gamesPlayed > 0 
+                            Win Rate: {character.gamesPlayed > 0
                               ? Math.round((character.wins / character.gamesPlayed) * 100) + '%'
                               : '0%'}
                           </span>
@@ -426,7 +231,7 @@ export default function Characters() {
               <div className="modal-footer"> {/* Refactored */}
                 <button
                   onClick={() => setShowProgressModal(false)}
-                  className="action-button primary" 
+                  className="action-button primary"
                 >
                   Close
                 </button>

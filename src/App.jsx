@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import SuperAdmin from "./pages/SuperAdmin";
 import TournamentView from "./pages/TournamentView";
 import Layout from "./components/Layout";
+import PublicApp from "./public/PublicApp";
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -40,21 +41,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
+          <Route path="/*" element={<PublicApp />} />
           <Route path="/login" element={isAuthenticated ? <Navigate to="/admin/dashboard" /> : <Login onLogin={handleLogin} />} />
           
-          {/* Root redirect */}
-          <Route path="/" element={<Navigate to={isAuthenticated ? "/admin/dashboard" : "/login"} />} />
-          
-          {/* Catch-all for any non-admin routes and redirect to proper admin URLs */}
-          <Route path="/dashboard" element={<Navigate to="/admin/dashboard" />} />
-          <Route path="/manage-tournaments" element={<Navigate to="/admin/manage-tournaments" />} />
-          <Route path="/tournament/:id" element={<Navigate to="/admin/tournament/:id" />} />
-          <Route path="/manage-participants" element={<Navigate to="/admin/manage-participants" />} />
-          <Route path="/eternal-table" element={<Navigate to="/admin/eternal-table" />} />
-          <Route path="/characters" element={<Navigate to="/admin/characters" />} />
-          <Route path="/settings" element={<Navigate to="/admin/settings" />} />
-          <Route path="/super-admin" element={<Navigate to="/admin/super-admin" />} />
-
           {/* Protected Admin Routes */}
           <Route
             path="/admin/*"
@@ -86,9 +75,6 @@ export default function App() {
               )
             }
           />
-          
-          {/* Global catch-all */}
-          <Route path="*" element={<Navigate to={isAuthenticated ? "/admin/dashboard" : "/login"} />} />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" richColors />

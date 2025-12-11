@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Trophy, Lock, User } from 'lucide-react';
 import { toast } from 'sonner';
 import '../styles/Login.css'; // Add this line
@@ -34,48 +35,47 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="login-container"> {/* Refactored */}
-      <div className="login-wrapper"> {/* Refactored */}
+    <div className="login-container">
+      <div className="login-wrapper">
         <div className="text-center mb-8">
-          <div className="logo-container"> {/* Refactored */}
-            <div className="logo-background"> {/* Refactored */}
-              <Trophy className="logo-icon" size={48} /> {/* Refactored */}
+          <div className="logo-container">
+            <div className="logo-background">
+              <Trophy className="logo-icon" size={48} />
             </div>
           </div>
-          <h1 className="main-title">Tournament Management System</h1> {/* Refactored */}
-          <p className="subtitle">Admin Login</p> {/* Refactored */}
+          <h1 className="main-title">Tournament Management System</h1>
+          <p className="subtitle">Admin Login</p>
         </div>
 
-        <div className="login-card"> {/* Refactored */}
+        <div className="text-center mb-4">
+          <p className="admin-only-message"><b>This page is for admins only.</b></p>
+          <Link to="/" className="user-dashboard-button">Go to User Dashboard</Link>
+        </div>
+
+        <div className="login-card">
           <form onSubmit={handleSubmit}>
-            <div className="form-group"> {/* Refactored */}
+            <div className="form-group">
               <label className="form-label">Username</label>
-              <div className="input-with-icon"> {/* Refactored */}
-                <User className="input-icon" size={20} /> {/* Refactored */}
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="form-input"
-                  placeholder="Enter username"
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="form-input"
+                placeholder="Enter username"
+                required
+              />
             </div>
 
-            <div className="form-group"> {/* Refactored */}
+            <div className="form-group">
               <label className="form-label">Password</label>
-              <div className="input-with-icon"> {/* Refactored */}
-                <Lock className="input-icon" size={20} /> {/* Refactored */}
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-input"
-                  placeholder="Enter password"
-                  required
-                />
-              </div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input"
+                placeholder="Enter password"
+                required
+              />
             </div>
 
             <button
@@ -87,10 +87,10 @@ export default function Login({ onLogin }) {
             </button>
           </form>
 
-          <div className="demo-credentials"> {/* Refactored */}
-            <p className="demo-credentials-title">Demo Credentials:</p> {/* Refactored */}
-            <p className="demo-credential-item">Super Admin: superadmin / super123</p> {/* Refactored */}
-            <p className="demo-credential-item">Admin: admin / admin123</p> {/* Refactored */}
+          <div className="demo-credentials">
+            <p className="demo-credentials-title">Demo Credentials:</p>
+            <p className="demo-credential-item">Super Admin: superadmin / super123</p>
+            <p className="demo-credential-item">Admin: admin / admin123</p>
           </div>
         </div>
       </div>

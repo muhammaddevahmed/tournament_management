@@ -66,33 +66,33 @@ export default function SuperAdmin() {
   };
 
   return (
-    <div className="super-admin-container"> {/* Refactored */}
-      <div className="super-admin-header-section"> {/* Refactored */}
-        <h1 className="super-admin-title">Super Admin Panel</h1> {/* Refactored */}
-        <p className="super-admin-subtitle">Manage administrator accounts and permissions</p> {/* Refactored */}
+    <div className="super-admin-container">
+      <div className="super-admin-header-section">
+        <h1 className="super-admin-title">Super Admin Panel</h1>
+        <p className="super-admin-subtitle">Manage administrator accounts and permissions</p>
       </div>
 
       {/* Stats */}
-      <div className="stats-grid"> {/* Refactored */}
-        <div className="card stat-card"> {/* Refactored */}
-          <div className="stat-card-header"> {/* Refactored */}
-            <Shield className="stat-icon" size={24} /> {/* Refactored */}
-            <p className="stat-label">Total Admins</p> {/* Refactored */}
+      <div className="stats-grid">
+        <div className="card stat-card">
+          <div className="stat-card-header">
+            <Shield className="stat-icon" size={24} />
+            <p className="stat-label">Total Admins</p>
           </div>
-          <h3 className="stat-value text-blue">{admins.length}</h3> {/* Refactored */}
+          <h3 className="stat-value text-blue">{admins.length}</h3>
         </div>
-        <div className="card stat-card"> {/* Refactored */}
-          <p className="stat-label">Active</p> {/* Refactored */}
-          <h3 className="stat-value text-blue">{admins.filter(a => a.status === 'Active').length}</h3> {/* Refactored */}
+        <div className="card stat-card">
+          <p className="stat-label">Active</p>
+          <h3 className="stat-value text-blue">{admins.filter(a => a.status === 'Active').length}</h3>
         </div>
-        <div className="card stat-card"> {/* Refactored */}
-          <p className="stat-label">Super Admins</p> {/* Refactored */}
-          <h3 className="stat-value text-yellow">{admins.filter(a => a.role === 'superadmin').length}</h3> {/* Refactored */}
+        <div className="card stat-card">
+          <p className="stat-label">Super Admins</p>
+          <h3 className="stat-value text-yellow">{admins.filter(a => a.role === 'superadmin').length}</h3>
         </div>
       </div>
 
       {/* Action Button */}
-      <div className="action-button-container"> {/* Refactored */}
+      <div className="action-button-container">
         <button
           onClick={() => setShowAddModal(true)}
           className="action-button primary" 
@@ -103,47 +103,47 @@ export default function SuperAdmin() {
       </div>
 
       {/* Permissions Info */}
-      <div className="card permissions-info-card"> {/* Refactored */}
-        <h3 className="card-title">Admin Permissions</h3> {/* Refactored */}
-        <div className="permissions-grid"> {/* Refactored */}
+      <div className="card permissions-info-card">
+        <h3 className="card-title">Admin Permissions</h3>
+        <div className="permissions-grid">
           <div>
-            <h4 className="permission-heading">Super Admin Can:</h4> {/* Refactored */}
-            <ul className="permission-list"> {/* Refactored */}
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet yellow">●</span> {/* Refactored */}
+            <h4 className="permission-heading">Super Admin Can:</h4>
+            <ul className="permission-list">
+              <li className="permission-list-item">
+                <span className="permission-bullet yellow">●</span>
                 <span>Create and delete admin accounts</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet yellow">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet yellow">●</span>
                 <span>Access all system features</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet yellow">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet yellow">●</span>
                 <span>Manage all tournaments</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet yellow">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet yellow">●</span>
                 <span>Full system configuration access</span>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="permission-heading">Sub-Admin Can:</h4> {/* Refactored */}
-            <ul className="permission-list"> {/* Refactored */}
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet blue">●</span> {/* Refactored */}
+            <h4 className="permission-heading">Sub-Admin Can:</h4>
+            <ul className="permission-list">
+              <li className="permission-list-item">
+                <span className="permission-bullet blue">●</span>
                 <span>Create tournaments</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet blue">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet blue">●</span>
                 <span>Edit tournaments</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet blue">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet blue">●</span>
                 <span>Manage participants</span>
               </li>
-              <li className="permission-list-item"> {/* Refactored */}
-                <span className="permission-bullet blue">●</span> {/* Refactored */}
+              <li className="permission-list-item">
+                <span className="permission-bullet blue">●</span>
                 <span>View eternal table</span>
               </li>
             </ul>
@@ -152,34 +152,34 @@ export default function SuperAdmin() {
       </div>
 
       {/* Admin List */}
-      <div className="card admin-list-card"> {/* Refactored */}
-        <div className="card-header"> {/* Refactored */}
-          <h3 className="card-title">Admin Accounts</h3> {/* Refactored */}
+      <div className="card admin-list-card">
+        <div className="card-header">
+          <h3 className="card-title">Admin Accounts</h3>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="full-width-table"> {/* Refactored */}
+          <table className="full-width-table">
             <thead>
-              <tr className="table-header-row"> {/* Refactored */}
-                <th className="table-header-cell">Username</th> {/* Refactored */}
-                <th className="table-header-cell">Role</th> {/* Refactored */}
-                <th className="table-header-cell">Created Date</th> {/* Refactored */}
-                <th className="table-header-cell">Status</th> {/* Refactored */}
-                <th className="table-header-cell">Actions</th> {/* Refactored */}
+              <tr className="table-header-row">
+                <th className="table-header-cell">Username</th>
+                <th className="table-header-cell">Role</th>
+                <th className="table-header-cell">Created Date</th>
+                <th className="table-header-cell">Status</th>
+                <th className="table-header-cell">Actions</th>
               </tr>
             </thead>
             <tbody>
               {admins.map((admin) => (
-                <tr key={admin.id} className="table-row"> {/* Refactored */}
-                  <td className="table-cell">
-                    <div className="admin-username-cell"> {/* Refactored */}
+                <tr key={admin.id} className="table-row">
+                  <td className="table-cell" data-label="Username">
+                    <div className="admin-username-cell">
                       {admin.role === 'superadmin' && (
                         <Shield className="admin-shield-icon" size={20} /> 
                       )}
-                      <span className="admin-username">{admin.username}</span> {/* Refactored */}
+                      <span className="admin-username">{admin.username}</span>
                     </div>
                   </td>
-                  <td className="table-cell">
+                  <td className="table-cell" data-label="Role">
                     <span className={`admin-role-badge ${
                       admin.role === 'superadmin' 
                         ? 'superadmin' 
@@ -188,8 +188,8 @@ export default function SuperAdmin() {
                       {admin.role === 'superadmin' ? 'Super Admin' : 'Admin'}
                     </span>
                   </td>
-                  <td className="table-cell">{admin.createdAt}</td>
-                  <td className="table-cell">
+                  <td className="table-cell" data-label="Created Date">{admin.createdAt}</td>
+                  <td className="table-cell" data-label="Status">
                     <button
                       onClick={() => toggleStatus(admin.id)}
                       disabled={admin.username === 'superadmin'}
@@ -202,7 +202,7 @@ export default function SuperAdmin() {
                       {admin.status}
                     </button>
                   </td>
-                  <td className="table-cell">
+                  <td className="table-cell" data-label="Actions">
                     <button
                       onClick={() => handleDelete(admin.id, admin.username)}
                       disabled={admin.username === 'superadmin'}
@@ -235,11 +235,11 @@ export default function SuperAdmin() {
               className="modal-content" 
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="modal-header"> {/* Refactored */}
-                <h3 className="modal-title">Create New Admin</h3> {/* Refactored */}
+              <div className="modal-header">
+                <h3 className="modal-title">Create New Admin</h3>
               </div>
 
-              <div className="modal-body"> {/* Refactored */}
+              <div className="modal-body">
                 <div>
                   <label className="form-label">Username</label>
                   <input
@@ -274,15 +274,15 @@ export default function SuperAdmin() {
                   </select>
                 </div>
 
-                <div className="info-box info-box-yellow"> {/* Refactored */}
-                  <p className="info-box-text"> {/* Refactored */}
+                <div className="info-box info-box-yellow">
+                  <p className="info-box-text">
                     <strong>Note:</strong> Make sure to save the password securely. 
                     Admins will use these credentials to log in.
                   </p>
                 </div>
               </div>
 
-              <div className="modal-footer"> {/* Refactored */}
+              <div className="modal-footer">
                 <button
                   onClick={() => {
                     setShowAddModal(false);

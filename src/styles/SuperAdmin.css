@@ -1,3 +1,9 @@
+@media (min-width: 1280px) {
+  .super-admin-container {
+    max-width: 96rem;
+  }
+}
+
 .super-admin-container {
   max-width: 80rem;
   margin: 0 auto;
@@ -86,7 +92,7 @@
 
 @media (min-width: 640px) {
   .stats-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -715,7 +721,7 @@
   }
   
   .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
   
   .action-button-container {
@@ -777,6 +783,44 @@
   .status-toggle-button {
     min-width: 100px;
     font-size: 0.7rem;
+  }
+
+  .full-width-table {
+    display: block;
+    width: 100%;
+  }
+
+  .table-header-row {
+    display: none;
+  }
+
+  .table-row {
+    display: block;
+    margin-bottom: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    border: 1px solid #fef3c7;
+  }
+
+  .table-cell {
+    display: block;
+    padding: 1rem 1.5rem;
+    text-align: right;
+    border-right: none;
+    border-bottom: 1px solid #fef3c7;
+  }
+
+  .table-cell:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #1f2937;
+  }
+
+  .table-cell:last-child {
+    border-bottom: none;
   }
 }
 
